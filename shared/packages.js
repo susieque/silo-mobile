@@ -9,8 +9,6 @@ export const PACKAGES = [
         job: 'Atlas Apartments',
         notes: '',
         location: 'Shop'
-        
-        
     },
     {
         id: 1,
@@ -31,7 +29,7 @@ export const PACKAGES = [
         remaining: 1,
         description: 'Controls Components',
         job: 'St. Thomas School Ex Ph 2',
-        notes: '',
+        notes: 'Originally ordered by Jon, but purchase order was reversed and reassigned to special teams phase code.  John H. reordered the items.',
         location: 'Dispatched'
     },
     {
@@ -55,5 +53,28 @@ export const PACKAGES = [
         job: 'LIHI Offices',
         notes: '',
         location: 'Dispatched'
-    }
+    },
+    {
+        id: 5,
+        number: '22851',
+        shelf: 'YZ1',
+        ordered: 2,
+        remaining: 2,
+        description: 'Fan, Large Wooden Crate',
+        job: 'Othello Park Development',
+        notes: '',
+        location: 'Shop'
+    },
+    {
+        id: 6,
+        number: '22850',
+        shelf: 'Z1FLR',
+        ordered: 15,
+        remaining: 15,
+        description: 'Grilles, Registers, Diffusers',
+        job: '15th Ave (Shoreline Apts)',
+        notes: '',
+        location: 'Shop'
+    },
+    
 ];

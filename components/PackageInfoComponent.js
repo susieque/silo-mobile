@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { Card } from 'react-native-elements';
+import { PACKAGES } from '../shared/packages';
+import { JOBS } from '../shared/jobs';
 
 function RenderPackage({item}){
-    
+
     if(item){
         return(
             // <Card 
@@ -21,13 +23,12 @@ function RenderPackage({item}){
                         {item.job} {'\n'}
                         {item.description}
                     </Card.Title>
-                    <Text style={styles.cardBody}>
-                        LOCATION{'\n'}
-                        {item.location}{'\n'}{'\n'}
-                        STATUS{'\n'}
-                        {item.remaining} out of {item.ordered} units remaining{'\n'}{'\n'}
-                        NOTES{'\n'}{item.notes}
-                    </Text>
+                    <Text style={styles.cardHeader}>LOCATION</Text>
+                    <Text style={styles.cardBody}>{item.location}{'\n'}</Text>
+                    <Text style={styles.cardHeader}>STATUS</Text>
+                    <Text style={styles.cardBody}>{item.remaining} out of {item.ordered} units remaining{'\n'}</Text>
+                    <Text style={styles.cardHeader}>NOTES</Text>
+                    <Text style={styles.cardBody}>{item.notes}</Text>
                     {/* <Card.Image style={styles.cardImage} source={require('./images/boxes.jpeg')}/> */}
                 </Card>
             </SafeAreaView>
@@ -37,8 +38,29 @@ function RenderPackage({item}){
     return <View />
 }
 
-function PackageInfo(props){
-    return <RenderPackage item={props.item} />
+class PackageInfo extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            packages: PACKAGES,
+            jobs: JOBS
+        }
+    }
+
+    static navigationOptions = {
+        title: 'Details'
+    }
+
+    render(){ 
+        
+        const packageId = this.props.navigation.getParam('packageId');
+        const item = this.state.packages.filter(p => p.id === packageId)[0];
+
+        return(
+            <RenderPackage item={item} />
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -52,9 +74,14 @@ const styles = StyleSheet.create({
         padding: 5,
         backgroundColor: '#e3e3e3'
     },
+    cardHeader: {
+        fontSize:18,
+        fontWeight: 'bold'
+        
+    },
      cardBody: {
-        fontSize: 18,
-        paddingLeft: 5,
+        fontSize: 16,
+        fontStyle: 'italic'
         
     },
 
