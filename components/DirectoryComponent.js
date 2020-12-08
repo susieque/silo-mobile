@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, SafeAreaView } from 'react-native';
-import { Avatar, ListItem, Badge } from 'react-native-elements';
+import { FlatList, StyleSheet, SafeAreaView, View, Image, Alert } from 'react-native';
+import { Avatar, ListItem, Button, Card } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
 import { PACKAGES } from '../shared/packages';
 import { JOBS } from '../shared/jobs';
+import PackageList from './PackageListComponent';
 
 class Directory extends Component {
 
@@ -18,53 +19,38 @@ class Directory extends Component {
     }
 
     static navigationOptions = {
-        title: 'Packages'
+        title: 'Directory'
     };
 
     render(){
         const { navigate } = this.props.navigation
-        const renderDirectoryItem = ({item}) => {
-            return (
-                <ListItem 
-                onPress={() => navigate('PackageInfo', { packageId: item.id})}
-                Component={TouchableScale}
-                friction={90} //
-                tension={100} // These props are passed to the parent component (here TouchableScale)
-                activeScale={0.95}
-                containerStyle={styles.listContainer} //
-                linearGradientProps={{
-                //   colors: ['#FFA262', '#DA620B'],
-                //   colors: ['#239f03', '#1a7d00'],
-                //   colors: ['#239f03', '#1a7d00'],
-                // colors: ['#587db9', '#3662a6'],
-                    // colors: ['#f39f0c', '#fbb741'],
-                    colors: ['#ffa262', '#eca06c'],
-                start: { x: 1, y: 0 },
-                end: { x: 0.2, y: 0 },
-                }}>
-                    <Avatar size='large' rounded source={require('./images/orange-avatar-white-bg.png')} />
-                    <ListItem.Content>
-                        <ListItem.Title style={styles.listItemTitle}>
-                            {item.number}
-                        </ListItem.Title>
-                        <ListItem.Subtitle style={styles.listItemSubtitle}>
-                            {item.job} {'\n'}
-                            {item.description}
-                        </ListItem.Subtitle>
-                    </ListItem.Content>
-                </ListItem>
-            );
-        };
-
+        
         return (
-            <SafeAreaView>
-                <FlatList
-                    data={this.state.packages}
-                    renderItem={renderDirectoryItem}
-                    style={styles.flatlistOverview}
-                    keyExtractor={item => item.id.toString()}
-                />
-            </SafeAreaView>
+            <View style={styles.directoryContainer}>
+                {/* <Card style={styles.cardContainer}>
+                    <Card.Image 
+                        style={styles.cardImage} 
+                        source={require('./images/orange-avatar-white-bg.png')} />
+                    <Card.Title style={styles.cardTitle}> 
+                        SILO Mobile
+                    </Card.Title>
+                    
+                </Card> */}
+                <Button 
+                    title="View Package List"
+                    onPress={() => navigate('PackageList', { packages: this.state.PACKAGES})}
+                    type='clear'
+                    titleStyle={styles.buttonTitle}
+                    containerStyle={styles.primaryButtonContainer}
+                    />
+                <Button 
+                    title="Scan"
+                    onPress={() => Alert.alert('Activating Scanner')}
+                    type='clear'
+                    titleStyle={styles.buttonTitle}
+                    containerStyle={styles.primaryButtonContainer}
+                    />
+            </View>
         );
     }
 }
@@ -73,20 +59,36 @@ const styles=StyleSheet.create({
     flatlistOverview: {
         margin:5
     },
-
-    listItemTitle: {
-        color: 'white', 
-        fontWeight: 'bold', 
-        fontSize: 28
+    buttonTitle: {
+        color: 'black',
+        fontSize:20,
+        
     },
-
-    listContainer: {
-        margin: 5,
-        borderRadius:15
-    },
-    listItemSubtitle:{
+    primaryButtonContainer: {
         color: 'white',
-        fontSize: 18
+        backgroundColor: '#ffc59d',
+        borderColor: 'white',
+        marginTop:5,
+        marginLeft:0,
+        marginRight:0,
+        textAlignVertical:'center'
+    },
+    directoryContainer: {
+        paddingTop: 5,
+        margin:0
+    },
+    cardContainer: {
+        backgroundColor: 'lightgray',
+        alignContent: "center"
+    },
+    cardImage: {
+        resizeMode:'center',
+        alignItems: "flex-end"
+    },
+    cardTitle: {
+        fontSize:40,
+        fontWeight: 'bold',
+        color: 'darkgray'
     }
 
 })

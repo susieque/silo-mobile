@@ -4,6 +4,7 @@ import { PACKAGES } from '../shared/packages';
 import { JOBS } from '../shared/jobs';
 import { SafeAreaView } from 'react-native';
 import PackageInfo from './PackageInfoComponent';
+import PackageList from './PackageListComponent';
 import { View, Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
@@ -12,7 +13,7 @@ import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 const DirectoryNavigator = createStackNavigator(
     {
         Directory: { screen: Directory },
-        PackageInfo: { screen: PackageInfo }
+        PackageList: { screen: PackageList },
     },
     {
         initialRouteName: 'Directory',
