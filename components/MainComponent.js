@@ -36,6 +36,52 @@ const DirectoryNavigator = createStackNavigator(
 
 );
 
+const PackageInfoNavigator = createStackNavigator(
+    {
+        PackageList: { screen: PackageList },
+        PackageInfo: { screen: PackageInfo }
+    },
+    {
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#b84D05',
+                // backgroundColor: '#F36A0C',
+                
+            },
+            headerTintColor: '#e3e3e3',
+            headerTitleStyle: {
+                color: 'white',
+                fontSize:26,
+                paddingBottom:5
+            }
+        }
+    }
+
+);
+
+const PackageListNavigator = createStackNavigator(
+    {
+        PackageList: { screen: PackageList },
+        PackageInfo: { screen: PackageInfo }
+    },
+    {
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#b84D05',
+                // backgroundColor: '#F36A0C',
+                
+            },
+            headerTintColor: '#e3e3e3',
+            headerTitleStyle: {
+                color: 'white',
+                fontSize:26,
+                paddingBottom:5
+            }
+        }
+    }
+
+);
+
 const HomeNavigator = createStackNavigator(
     {
         Home: {screen: Home}
@@ -60,7 +106,8 @@ const HomeNavigator = createStackNavigator(
 const MainNavigator = createDrawerNavigator(
     {
         Home: { screen: HomeNavigator },
-        Directory: { screen: DirectoryNavigator }
+        Directory: { screen: DirectoryNavigator },
+        PackageList: {screen: PackageListNavigator },
     },
     {
         drawerBackgroundColor: '#ffdec8'

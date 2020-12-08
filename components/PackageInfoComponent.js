@@ -5,17 +5,8 @@ import { PACKAGES } from '../shared/packages';
 import { JOBS } from '../shared/jobs';
 
 function RenderPackage({item}){
-
     if(item){
         return(
-            // <Card 
-            //     featuredTitle={item.number}
-            //     image={require('./images/GreenTaskBarIcon.png')}>
-            //     <Text style={{margin:20}}>
-            //         {item.description}
-            //     </Text>
-
-            // </Card>
             <SafeAreaView>
                 <Card style={styles.cardContainer}>
                     <Card.Title style={styles.cardTitle}>
@@ -53,7 +44,7 @@ class PackageInfo extends Component {
     }
 
     render(){ 
-        
+        // console.log(this.props.navigation.getParam('packageId'));
         const packageId = this.props.navigation.getParam('packageId');
         const item = this.state.packages.filter(p => p.id === packageId)[0];
 

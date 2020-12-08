@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, SafeAreaView, View, Image, Alert } from 'react-native';
-import { Avatar, ListItem, Button, Card } from 'react-native-elements';
+import { FlatList, StyleSheet, SafeAreaView, View, Alert, Text } from 'react-native';
+import { Avatar, ListItem, Button, Card, Image, Divider } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
 import { PACKAGES } from '../shared/packages';
@@ -26,19 +26,26 @@ class Directory extends Component {
         const { navigate } = this.props.navigation
         
         return (
-            <View style={styles.directoryContainer}>
-                {/* <Card style={styles.cardContainer}>
+            <SafeAreaView style={styles.directoryContainer}>
+                {/* <Card> 
                     <Card.Image 
                         style={styles.cardImage} 
                         source={require('./images/orange-avatar-white-bg.png')} />
-                    <Card.Title style={styles.cardTitle}> 
-                        SILO Mobile
-                    </Card.Title>
-                    
+                    <Card.FeaturedTitle 
+                        style={styles.cardTitle}
+                        image={require('./images/orange-avatar-white-bg.png')}> 
+                        Silo Mobile App                        
+                    </Card.FeaturedTitle>
                 </Card> */}
+                <View style={{backgroundColor: 'white'}}>
+                    <Image style={styles.cardImage} source={require('./images/orange-avatar-white-bg.png')}/>
+                    <Divider style={styles.dividerStyle}/>
+                    <Text style={styles.headerText}>Silo Mobile</Text>
+                    <Text style={styles.bodyText}>Manage equipment and track orders.  Use the scanner to receive deliveries made to the jobsite. </Text>
+                </View>
                 <Button 
                     title="View Package List"
-                    onPress={() => navigate('PackageList', { packages: this.state.PACKAGES})}
+                    onPress={() => navigate('PackageList', { packages: this.state.packages})}
                     type='clear'
                     titleStyle={styles.buttonTitle}
                     containerStyle={styles.primaryButtonContainer}
@@ -50,7 +57,7 @@ class Directory extends Component {
                     titleStyle={styles.buttonTitle}
                     containerStyle={styles.primaryButtonContainer}
                     />
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -64,6 +71,28 @@ const styles=StyleSheet.create({
         fontSize:20,
         
     },
+    dividerStyle: {
+        backgroundColor: '#323232',
+        marginBottom: 10
+    },
+
+    headerText: {
+        textAlign:'center', 
+        fontSize:36,
+        fontWeight: 'bold', 
+        color:'gray',
+        marginBottom: 10,
+        backgroundColor: 'white'
+    },
+    bodyText: {
+        textAlign: 'center',
+        fontSize: 20,
+        paddingLeft: 30,
+        paddingRight: 30,
+        marginBottom:10
+
+        
+    },
     primaryButtonContainer: {
         color: 'white',
         backgroundColor: '#ffc59d',
@@ -75,21 +104,25 @@ const styles=StyleSheet.create({
     },
     directoryContainer: {
         paddingTop: 5,
-        margin:0
+        margin:0,
+        backgroundColor: 'white'
     },
     cardContainer: {
-        backgroundColor: 'lightgray',
+        backgroundColor: 'white',
         alignContent: "center"
     },
     cardImage: {
-        resizeMode:'center',
-        alignItems: "flex-end"
+        height:100,
+        width: 'auto',
+        resizeMode: 'contain'
     },
     cardTitle: {
         fontSize:40,
         fontWeight: 'bold',
-        color: 'darkgray'
-    }
+        color: 'darkgray',
+        textAlign: 'center'
+    },
+   
 
 })
 
