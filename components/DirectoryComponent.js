@@ -6,11 +6,10 @@ import LinearGradient from 'react-native-linear-gradient';
 
 function Directory(props) {
 
-    
-
     const renderDirectoryItem = ({item}) => {
         return (
             <ListItem 
+            onPress={() => props.onPress(item.id)}
             Component={TouchableScale}
             friction={90} //
             tension={100} // These props are passed to the parent component (here TouchableScale)
@@ -26,19 +25,16 @@ function Directory(props) {
               start: { x: 1, y: 0 },
               end: { x: 0.2, y: 0 },
             }}>
-
-
-
                 <Avatar size='large' rounded source={require('./images/orange-avatar-white-bg.png')} />
                 <ListItem.Content>
-                    <ListItem.Title style={{ color: 'white', fontWeight: 'bold', fontSize: 28}}>
+                    <ListItem.Title style={styles.listItemTitle}>
                         {item.number}
                     </ListItem.Title>
-                    <ListItem.Subtitle style={{ color: '#efefef'}}>
+                    <ListItem.Subtitle style={styles.listItemSubtitle}>
+                        {item.job} {'\n'}
                         {item.description}
                     </ListItem.Subtitle>
                 </ListItem.Content>
-
             </ListItem>
         );
     };
@@ -59,10 +55,22 @@ const styles=StyleSheet.create({
         marginLeft: 5,
         marginRight: 5
     },
+
+    listItemTitle: {
+        color: 'white', 
+        fontWeight: 'bold', 
+        fontSize: 28
+    },
+
     listContainer: {
         margin: 5,
         borderRadius:15
+    },
+    listItemSubtitle:{
+        color: 'white',
+        fontSize: 18
     }
+
 })
 
 export default Directory;
