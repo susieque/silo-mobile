@@ -3,22 +3,24 @@ import { PACKAGES } from '../shared/packages';
 import { JOBS } from '../shared/jobs';
 import { SafeAreaView } from 'react-native';
 import { View, Platform } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
-import Directory from './DirectoryComponent';
+import Home from './HomeComponent';
 import PackageInfo from './PackageInfoComponent';
 import PackageList from './PackageListComponent';
-import Home from './HomeComponent';
+import Login from './LoginComponent';
 
-const DirectoryNavigator = createStackNavigator(
+//STACK NAVIGATORS
+const HomeNavigator = createStackNavigator(
     {
-        Directory: { screen: Directory },
+        Home: { screen: Home },
         PackageList: { screen: PackageList },
     },
     {
-        initialRouteName: 'Directory',
+        initialRouteName: 'Home',
         defaultNavigationOptions: {
             headerStyle: {
                 backgroundColor: '#b84D05',
@@ -56,11 +58,11 @@ const PackageInfoNavigator = createStackNavigator(
             }
         }
     }
-
 );
 
 const PackageListNavigator = createStackNavigator(
     {
+        Home: { screen: Home },
         PackageList: { screen: PackageList },
         PackageInfo: { screen: PackageInfo }
     },
@@ -82,38 +84,59 @@ const PackageListNavigator = createStackNavigator(
 
 );
 
-const HomeNavigator = createStackNavigator(
+const LoginNavigator = createStackNavigator(
     {
-        Home: {screen: Home}
+        Login: { screen: Login }
     },
     {
-        defaultNavigationOptions: {
+        defaultNavigationOptions: ({navigation}) => ({
             headerStyle: {
-                backgroundColor: '#b84D05',
-                // backgroundColor: '#F36A0C',
-                
+                backgroundColor: '#b84D05'
             },
             headerTintColor: '#e3e3e3',
             headerTitleStyle: {
                 color: 'white',
-                fontSize:26,
+                fontSize: 26,
                 paddingBottom:5
-            }
-        }
+            },
+            headerLeft: <Icon
+                name='sign-in'
+                type='font-awesome'
+                color='white'
+                //iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
     }
-)
+);
 
+
+//DRAWER NAVIGATOR
 const MainNavigator = createDrawerNavigator(
     {
+        Login: {
+            screen: LoginNavigator,
+            navigationOptions: {
+                drawerIcon: ({tintColor}) => (
+                    <Icon
+                        name='sign-in'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            }
+        },
         Home: { screen: HomeNavigator },
-        Directory: { screen: DirectoryNavigator },
         PackageList: {screen: PackageListNavigator },
     },
     {
+        initialRouteName: 'Login',
         drawerBackgroundColor: '#ffdec8'
     }
 );
 
+//CONTAINER
 const AppNavigator = createAppContainer(MainNavigator);
 
 class Main extends Component {

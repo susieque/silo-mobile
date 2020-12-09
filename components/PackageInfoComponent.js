@@ -13,7 +13,7 @@ function RenderPackageDetails(props){
             <SafeAreaView>
                         {/* <Avatar rounded size='small' source={require('./images/orange-avatar-white-bg.png')}/> */}
                 <Card style={styles.cardContainer}>
-                    <Card.Title style={{backgroundColor: '#ffc59d', paddingBottom: 10}}>
+                    <Card.Title style={{backgroundColor: '#e3e3e3', paddingBottom: 10}}>
                         <View style={styles.viewContainer}>
                             <Text style={styles.cardTitle}>{item.number}</Text>
                             <Text style={styles.cardSubtitle}>{item.job}</Text>
