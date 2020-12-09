@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, SafeAreaView, Alert } from 'react-native';
 import { Avatar, ListItem, Badge } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
+import Header from './ui-blocks/HeaderComponent';
 import { PACKAGES } from '../shared/packages';
 import { JOBS } from '../shared/jobs';
 
@@ -59,6 +60,7 @@ class PackageList extends Component {
 
         return (
             <SafeAreaView>
+                {/* <Header /> */}
                 <FlatList
                     data={this.state.packages}
                     renderItem={renderPackageListItem}

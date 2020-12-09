@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { PACKAGES } from '../shared/packages';
 import { JOBS } from '../shared/jobs';
 import PackageList from './PackageListComponent';
+import Header from './ui-blocks/HeaderComponent';
 
 class Home extends Component {
 
@@ -27,22 +28,9 @@ class Home extends Component {
         
         return (
             <SafeAreaView style={styles.directoryContainer}>
-                {/* <Card> 
-                    <Card.Image 
-                        style={styles.cardImage} 
-                        source={require('./images/orange-avatar-white-bg.png')} />
-                    <Card.FeaturedTitle 
-                        style={styles.cardTitle}
-                        image={require('./images/orange-avatar-white-bg.png')}> 
-                        Silo Mobile App                        
-                    </Card.FeaturedTitle>
-                </Card> */}
-                <View style={{backgroundColor: 'white'}}>
-                    <Image style={styles.cardImage} source={require('./images/orange-avatar-white-bg.png')}/>
-                    <Divider style={styles.dividerStyle}/>
-                    <Text style={styles.headerText}>Silo Mobile</Text>
-                    <Text style={styles.bodyText}>Manage equipment and track orders.  Use the scanner to receive deliveries made to the jobsite. </Text>
-                </View>
+                
+                <Header />
+                <Text style={styles.bodyText}>Manage equipment and track orders.  Use the scanner to receive deliveries made to the jobsite. </Text>
                 <Button 
                     title="View Package List"
                     onPress={() => navigate('PackageList', { packages: this.state.packages})}
@@ -73,7 +61,7 @@ const styles=StyleSheet.create({
     },
     dividerStyle: {
         backgroundColor: '#323232',
-        marginBottom: 10
+        //marginBottom: 10
     },
 
     headerText: {
@@ -85,11 +73,12 @@ const styles=StyleSheet.create({
         backgroundColor: 'white'
     },
     bodyText: {
-        textAlign: 'center',
-        fontSize: 20,
+        textAlign: 'left',
+        fontSize: 16,
         paddingLeft: 30,
         paddingRight: 30,
-        marginBottom:10
+        marginBottom:10,
+        marginTop:10
 
         
     },
@@ -113,8 +102,8 @@ const styles=StyleSheet.create({
         alignContent: "center"
     },
     cardImage: {
-        height:100,
-        width: 'auto',
+        height:75,
+        width: 75,
         resizeMode: 'contain'
     },
     cardTitle: {
@@ -123,8 +112,13 @@ const styles=StyleSheet.create({
         color: 'darkgray',
         textAlign: 'center'
     },
-   
-
+    cardRow:{
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor:'white'
+    }
 })
 
 export default Home;
