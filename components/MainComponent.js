@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { PACKAGES } from '../shared/packages';
 import { JOBS } from '../shared/jobs';
-import { SafeAreaView } from 'react-native';
-import { View, Platform } from 'react-native';
+import SafeAreaView from 'react-native-safe-area-view';
+import { View, Platform, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 import Home from './HomeComponent';
 import PackageInfo from './PackageInfoComponent';
@@ -16,12 +16,12 @@ import Login from './LoginComponent';
 //STACK NAVIGATORS
 const HomeNavigator = createStackNavigator(
     {
-        Home: { screen: Home },
-        PackageList: { screen: PackageList },
+        Home: { screen: Home }
     },
     {
         initialRouteName: 'Home',
-        defaultNavigationOptions: {
+
+        defaultNavigationOptions:({navigation}) => ({
             headerStyle: {
                 backgroundColor: '#b84D05',
                 // backgroundColor: '#F36A0C',
@@ -32,15 +32,21 @@ const HomeNavigator = createStackNavigator(
                 color: 'white',
                 fontSize:26,
                 paddingBottom:5
-            }
-        }
+            },
+            headerLeft: <Icon
+                name='home'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
     }
 
 );
 
 const PackageInfoNavigator = createStackNavigator(
     {
-        PackageList: { screen: PackageList },
+        //PackageList: { screen: PackageList },
         PackageInfo: { screen: PackageInfo }
     },
     {
@@ -62,12 +68,12 @@ const PackageInfoNavigator = createStackNavigator(
 
 const PackageListNavigator = createStackNavigator(
     {
-        Home: { screen: Home },
+        // Home: { screen: Home },
         PackageList: { screen: PackageList },
         PackageInfo: { screen: PackageInfo }
     },
     {
-        defaultNavigationOptions: {
+        defaultNavigationOptions: ({navigation}) => ({
             headerStyle: {
                 backgroundColor: '#b84D05',
                 // backgroundColor: '#F36A0C',
@@ -78,8 +84,14 @@ const PackageListNavigator = createStackNavigator(
                 color: 'white',
                 fontSize:26,
                 paddingBottom:5
-            }
-        }
+            },
+            headerLeft: <Icon
+                name='bars'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
     }
 
 );
@@ -103,13 +115,31 @@ const LoginNavigator = createStackNavigator(
                 name='sign-in'
                 type='font-awesome'
                 color='white'
-                //iconStyle={styles.stackIcon}
+                iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
             />
         })
     }
 );
 
+//CUSTOM DRAWER COMPONENT
+const CustomDrawerContentComponent = props => (
+    <ScrollView>
+        <SafeAreaView 
+            style={styles.container}
+            forceInset={{top: 'always', horizontal: 'never'}}>
+            <View style={styles.drawerHeader}>
+                <View style={{flex: 1}}>
+                    <Image source={require('./images/logo-transparent-logo.png')} style={styles.drawerImage} />
+                </View>
+                <View style={{flex: 2}}>
+                    <Text style={styles.drawerHeaderText}>Silo Mobile</Text>
+                </View>
+            </View>
+            <DrawerItems {...props} />
+        </SafeAreaView>
+    </ScrollView>
+);
 
 //DRAWER NAVIGATOR
 const MainNavigator = createDrawerNavigator(
@@ -127,12 +157,38 @@ const MainNavigator = createDrawerNavigator(
                 )
             }
         },
-        Home: { screen: HomeNavigator },
-        PackageList: {screen: PackageListNavigator },
+        Home: { 
+            screen: HomeNavigator,
+            navigationOptions: {
+                drawerIcon: ({tintColor}) => (
+                    <Icon 
+                        name='home'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            } 
+        
+        },
+        PackageList: {
+            screen: PackageListNavigator,
+            navigationOptions: {
+                drawerIcon: ({tintColor}) => (
+                    <Icon 
+                        name='bars'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            } 
+        },
     },
     {
         initialRouteName: 'Login',
-        drawerBackgroundColor: '#ffdec8'
+        drawerBackgroundColor: '#ffdec8',
+        contentComponent: CustomDrawerContentComponent
     }
 );
 
@@ -151,5 +207,34 @@ class Main extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    stackIcon: {
+        marginLeft: 20,
+        color: '#fff',
+        fontSize: 24
+    },
+    container: {
+        flex: 1,
+    },
+    drawerHeader: {
+        backgroundColor: '#ffc59d',
+        height: 80,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        flexDirection: 'row'
+    },
+    drawerHeaderText: {
+        color: '#222222',
+        fontSize: 24,
+        fontWeight: 'bold'
+    },
+    drawerImage: {
+        margin: 10,
+        height: 60,
+        width: 60
+    }
+});
 
 export default Main;

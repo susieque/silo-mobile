@@ -5,7 +5,7 @@ import { Avatar, ListItem, Button, Card, Image, Divider, Icon } from 'react-nati
 function Header(){
 
     return(
-        <View style={{backgroundColor: 'white', height:80}}>
+        <View style={{backgroundColor: 'white', height:60}}>
             <View style={styles.cardRow}> 
                 <Image 
                     style={styles.cardImage}
@@ -28,8 +28,8 @@ function Header(){
 const styles = StyleSheet.create({
 
     cardImage: {
-        height:75,
-        width: 75,
+        height:50,
+        width: 50,
         resizeMode: 'contain'
     },
     cardRow:{
