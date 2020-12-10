@@ -44,9 +44,21 @@ const HomeNavigator = createStackNavigator(
 
 );
 
-const PackageInfoNavigator = createStackNavigator(
+const PackageListNavigator = createStackNavigator(
     {
-        //PackageList: { screen: PackageList },
+        // Home: { screen: Home },
+        PackageList: { 
+            screen: PackageList,
+            navigationOptions: ({navigation}) => ({
+                headerLeft: <Icon
+                name='bars'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+                />
+            }) 
+         },
+         
         PackageInfo: { screen: PackageInfo }
     },
     {
@@ -59,41 +71,12 @@ const PackageInfoNavigator = createStackNavigator(
             headerTintColor: '#e3e3e3',
             headerTitleStyle: {
                 color: 'white',
-                fontSize:26,
+                  fontSize:26,
                 paddingBottom:5
-            }
+            },
+            
         }
     }
-);
-
-const PackageListNavigator = createStackNavigator(
-    {
-        // Home: { screen: Home },
-        PackageList: { screen: PackageList },
-        PackageInfo: { screen: PackageInfo }
-    },
-    {
-        defaultNavigationOptions: ({navigation}) => ({
-            headerStyle: {
-                backgroundColor: '#b84D05',
-                // backgroundColor: '#F36A0C',
-                
-            },
-            headerTintColor: '#e3e3e3',
-            headerTitleStyle: {
-                color: 'white',
-                fontSize:26,
-                paddingBottom:5
-            },
-            headerLeft: <Icon
-                name='bars'
-                type='font-awesome'
-                iconStyle={styles.stackIcon}
-                onPress={() => navigation.toggleDrawer()}
-            />
-        })
-    }
-
 );
 
 const LoginNavigator = createStackNavigator(

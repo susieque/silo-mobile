@@ -71,9 +71,9 @@ class Login extends Component {
                     <Avatar 
                         rounded 
                         size='xlarge' 
-                        marginTop={0}
+                        marginTop={50}
                         marginBottom={10} 
-                        source={require('./images/orange-avatar-white-bg.png')}/>
+                        source={require('./images/logo-transparent-logo.png')}/>
                 </View>
                 {/* <Divider style={{backgroundColor:'#eca06c', height:5}} /> */}
                 <Card 
@@ -123,7 +123,7 @@ class Login extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         flex:1,
         margin: 0,
         backgroundColor: '#ffc59d'

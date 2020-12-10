@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet, SafeAreaView, View, Alert, Text } from 'react-native';
-import { Avatar, ListItem, Button, Card, Image, Divider } from 'react-native-elements';
+import { Avatar, ListItem, Button, Card, Image, Divider, Icon } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
 import { PACKAGES } from '../shared/packages';
@@ -30,21 +30,55 @@ class Home extends Component {
             <SafeAreaView style={styles.directoryContainer}>
                 
                 <Header />
-                <Text style={styles.bodyText}>Manage equipment and track orders.  Use the scanner to receive deliveries made to the jobsite. </Text>
-                <Button 
-                    title="View Package List"
-                    onPress={() => navigate('PackageList', { packages: this.state.packages})}
-                    type='clear'
-                    titleStyle={styles.buttonTitle}
-                    containerStyle={styles.primaryButtonContainer}
-                    />
-                <Button 
-                    title="Scan"
-                    onPress={() => Alert.alert('Activating Scanner')}
-                    type='clear'
-                    titleStyle={styles.buttonTitle}
-                    containerStyle={styles.primaryButtonContainer}
-                    />
+                <View>
+                    <Card 
+                        containerStyle={styles.cardContainer}>
+                        <Card.Title>
+                            <View style={styles.titleContainer}>
+                                <Icon 
+                                name={'bars'}
+                                type='font-awesome'
+                                size={15}
+                                color='#b84d05'
+                                raised
+                                reverse/>
+                                <Text style={styles.cardTitle}>Package List</Text>
+                            </View>
+                        </Card.Title>
+                        <Text style={styles.cardBody}>Manage warehouse order from the package list or receive items that can't be scanned.</Text>
+                        <Button 
+                            title="View List"
+                            onPress={() => navigate('PackageList', { packages: this.state.packages})}
+                            type='clear'
+                            titleStyle={styles.buttonTitle}
+                            containerStyle={styles.buttonContainer}
+                        />
+                    </Card>
+
+                    <Card 
+                        containerStyle={styles.cardContainer}>
+                        <Card.Title>
+                        <View style={styles.titleContainer}>
+                                <Icon 
+                                name={'qrcode'}
+                                type='font-awesome'
+                                size={15}
+                                color='#b84d05'
+                                raised
+                                reverse/>
+                                <Text style={styles.cardTitle}>Scanner</Text>
+                            </View>
+                        </Card.Title>
+                        <Text style={styles.cardBody}>Use the scanner to receive deliveries made to the jobsite. </Text>
+                        <Button 
+                            title="Scan"
+                            onPress={() => Alert.alert('Activating Scanner')}
+                            type='clear'
+                            titleStyle={styles.buttonTitle}
+                            containerStyle={styles.buttonContainer}
+                        />
+                    </Card>
+                </View>
             </SafeAreaView>
         );
     }
@@ -55,8 +89,18 @@ const styles=StyleSheet.create({
         margin:5
     },
     buttonTitle: {
-        color: 'black',
+        color: 'white',
         fontSize:20,
+        fontWeight: 'bold'
+        
+    },
+    buttonContainer: {
+        marginTop: 15,
+        color: 'white',
+        backgroundColor: '#b84d05',
+        borderColor: 'white',
+        borderRadius: 10,
+        textAlignVertical:'center'
         
     },
     dividerStyle: {
@@ -72,34 +116,18 @@ const styles=StyleSheet.create({
         marginBottom: 10,
         backgroundColor: 'white'
     },
-    bodyText: {
-        textAlign: 'left',
-        fontSize: 16,
-        paddingLeft: 30,
-        paddingRight: 30,
-        marginBottom:10,
-        marginTop:10
-
-        
-    },
-    primaryButtonContainer: {
-        color: 'white',
-        backgroundColor: '#ffc59d',
-        borderColor: 'white',
-        marginTop:5,
-        marginLeft:0,
-        marginRight:0,
-        textAlignVertical:'center'
-    },
+    
     directoryContainer: {
-        paddingTop: 5,
-        margin:0,
+        justifyContent: 'flex-start',
         flex:1,
-        backgroundColor: 'white'
+        margin: 0,
+        backgroundColor: '#ffc59d'
     },
     cardContainer: {
         backgroundColor: 'white',
-        alignContent: "center"
+        alignContent: "center",
+        borderRadius:0,
+        margin:0
     },
     cardImage: {
         height:75,
@@ -107,10 +135,11 @@ const styles=StyleSheet.create({
         resizeMode: 'contain'
     },
     cardTitle: {
-        fontSize:40,
+        fontSize:30,
         fontWeight: 'bold',
-        color: 'darkgray',
-        textAlign: 'center'
+        color: 'black',
+        textAlign: 'left',
+        marginLeft:15
     },
     cardRow:{
         alignItems: 'center',
@@ -118,6 +147,18 @@ const styles=StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         backgroundColor:'white'
+    },
+    cardBody: {
+        textAlign: 'left',
+        fontSize: 16,
+        paddingLeft: 0,
+        paddingRight: 30,
+        marginLeft:10,
+        marginBottom:10,
+    },
+    titleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     }
 })
 

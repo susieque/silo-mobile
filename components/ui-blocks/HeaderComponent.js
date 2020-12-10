@@ -9,8 +9,8 @@ function Header(){
             <View style={styles.cardRow}> 
                 <Image 
                     style={styles.cardImage}
-                    source={require('../images/orange-avatar-white-bg.png')}/>
-                <Text style={{fontSize:22, flex:2, color: 'gray', marginLeft: 10}}>Silo Mobile</Text>
+                    source={require('../images/logo-transparent-logo.png')}/>
+                {/* <Text style={{fontSize:18, flex:2, color: 'white', marginLeft: 10}}>Silo Mobile</Text> */}
                 {/* <Icon 
                     name={'bars'}
                     type='font-awesome'
@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,
-        flexDirection: 'row',
-        backgroundColor:'white'
+        flexDirection: 'column',
+        backgroundColor:'#ffc59d'
     },
     dividerStyle: {
         backgroundColor: '#323232',
