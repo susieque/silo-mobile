@@ -6,6 +6,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import Header from './ui-blocks/HeaderComponent';
 import { PACKAGES } from '../shared/packages';
 import { JOBS } from '../shared/jobs';
+import * as Location  from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 class Scanner extends Component {
 
@@ -14,50 +16,47 @@ class Scanner extends Component {
         this.state = {
             packages: PACKAGES,
             jobs: JOBS, 
-            selectedPackage: null
+            selectedPackage: null,
+            // status: 'initialStatus',
+            errorMessage:'',
+            location:'nowhere yet'
         }
     }
 
     static navigationOptions = {
-        title: 'Scanner'
+        title: 'Scanner' 
     };
 
-    render(){
-        // const { navigate } = this.props.navigation
-        // const renderPackageListItem = ({item}) => {
-        //     return (
-        //         <ListItem 
-        //             onPress={() => navigate('PackageInfo', {packageId: item.id})}
-        //             //onPress={() => console.log(item.id)}
-        //             Component={TouchableScale}
-        //             friction={90} //
-        //             tension={100} // These props are passed to the parent component (here TouchableScale)
-        //             activeScale={0.95}
-        //             containerStyle={styles.listContainer} //
-        //             linearGradientProps={{
-        //             //   colors: ['#FFA262', '#DA620B'],
-        //             //   colors: ['#239f03', '#1a7d00'],
-        //             //   colors: ['#239f03', '#1a7d00'],
-        //             // colors: ['#587db9', '#3662a6'],
-        //             // colors: ['#f39f0c', '#fbb741'],
-        //             colors: ['#ffa262', '#eca06c'],
-        //             start: { x: 1, y: 0 },
-        //             end: { x: 0.2, y: 0 },
-        //         }}>
-        //             <Avatar size='large' rounded source={require('./images/orange-avatar-white-bg.png')} />
-        //             <ListItem.Content>
-        //                 <ListItem.Title style={styles.listItemTitle}>
-        //                     {item.number}
-        //                 </ListItem.Title>
-        //                 <ListItem.Subtitle style={styles.listItemSubtitle}>
-        //                     {item.job} {'\n'}
-        //                     {item.description}
-        //                 </ListItem.Subtitle>
-        //             </ListItem.Content>
-        //         </ListItem>
-        //     );
-        // };
+    componentDidMount(){
+        this._getLocationPermissions();
+    }
+    
+    _getLocationPermissions = async () => {
 
+        // Alert.alert('component did mount is firing');
+        
+        const { status } = await Permissions.askAsync(Permissions.LOCATION);
+
+        if(status !== 'granted'){
+            console.log('Permission not granted');
+            this.setState({
+                errorMessage: 'Permission not granted'
+            })
+        }
+        this.setState({ status });
+        console.log( status );
+        //If we make it this far, then we have permission.
+        const userLocation = await Location.getCurrentPositionAsync();
+        this.setState({ 
+            location: userLocation
+        })
+        console.log(this.state.location);
+    }
+    
+    
+
+    render(){
+        // console.log(this.state.status);
         return (
             <SafeAreaView>
                 <Header />
