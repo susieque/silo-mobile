@@ -12,6 +12,7 @@ import Home from './HomeComponent';
 import PackageInfo from './PackageInfoComponent';
 import PackageList from './PackageListComponent';
 import Login from './LoginComponent';
+import Scanner from './ScannerComponent';
 
 //STACK NAVIGATORS
 const HomeNavigator = createStackNavigator(
@@ -52,6 +53,40 @@ const PackageListNavigator = createStackNavigator(
             navigationOptions: ({navigation}) => ({
                 headerLeft: <Icon
                 name='bars'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+                />
+            }) 
+         },
+         
+        PackageInfo: { screen: PackageInfo }
+    },
+    {
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#b84D05',
+                // backgroundColor: '#F36A0C',
+                
+            },
+            headerTintColor: '#e3e3e3',
+            headerTitleStyle: {
+                color: 'white',
+                  fontSize:26,
+                paddingBottom:5
+            },
+            
+        }
+    }
+);
+
+const ScannerNavigator = createStackNavigator(
+    {
+        Scanner: { 
+            screen: Scanner,
+            navigationOptions: ({navigation}) => ({
+                headerLeft: <Icon
+                name='qrcode'
                 type='font-awesome'
                 iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
@@ -160,6 +195,19 @@ const MainNavigator = createDrawerNavigator(
                 drawerIcon: ({tintColor}) => (
                     <Icon 
                         name='bars'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            } 
+        },
+        Scanner: {
+            screen: ScannerNavigator,
+            navigationOptions: {
+                drawerIcon: ({tintColor}) => (
+                    <Icon 
+                        name='qrcode'
                         type='font-awesome'
                         size={24}
                         color={tintColor}

@@ -72,7 +72,7 @@ class Home extends Component {
                         <Text style={styles.cardBody}>Use the scanner to receive deliveries made to the jobsite. </Text>
                         <Button 
                             title="Scan"
-                            onPress={() => Alert.alert('Activating Scanner')}
+                            onPress={() => navigate('Scanner', { packages: this.state.packages})}
                             type='clear'
                             titleStyle={styles.buttonTitle}
                             containerStyle={styles.buttonContainer}

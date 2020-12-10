@@ -17,7 +17,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Silo wants to use your camera to scan package codes."
+      }
     },
     "android": {
       "adaptiveIcon": {
