@@ -8,6 +8,7 @@ import { PACKAGES } from '../shared/packages';
 import { JOBS } from '../shared/jobs';
 import * as Location  from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import { RNCamera } from 'react-native-camera';
 
 class Scanner extends Component {
 
@@ -29,6 +30,7 @@ class Scanner extends Component {
 
     componentDidMount(){
         this._getLocationPermissions();
+        this._getCameraPermissions();
     }
     
     _getLocationPermissions = async () => {
@@ -43,7 +45,7 @@ class Scanner extends Component {
                 errorMessage: 'Permission not granted'
             })
         }
-        this.setState({ status });
+        //this.setState({ status });
         console.log( status );
         //If we make it this far, then we have permission.
         const userLocation = await Location.getCurrentPositionAsync();
@@ -53,6 +55,21 @@ class Scanner extends Component {
         console.log(this.state.location);
     }
     
+    _getCameraPermissions = async () => {
+
+        // Alert.alert('component did mount is firing');
+        
+        const { status } = await Permissions.askAsync(Permissions.CAMERA);
+
+        if(status !== 'granted'){
+            console.log('Permission not granted');
+            this.setState({
+                errorMessage: 'Permission not granted'
+            })
+        }
+        console.log( status );
+        
+    }
     
 
     render(){

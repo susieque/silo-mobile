@@ -71,8 +71,8 @@ class Login extends Component {
                     <Avatar 
                         rounded 
                         size='xlarge' 
-                        marginTop={50}
-                        marginBottom={10} 
+                        marginTop={0}
+                        marginBottom={0} 
                         source={require('./images/logo-transparent-logo.png')}/>
                 </View>
                 {/* <Divider style={{backgroundColor:'#eca06c', height:5}} /> */}
