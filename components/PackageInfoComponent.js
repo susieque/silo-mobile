@@ -76,6 +76,7 @@ class PackageInfo extends Component {
     render(){ 
         // console.log(this.props.navigation.getParam('packageId'));
         const packageId = this.props.navigation.getParam('packageId');
+        //alert('Retrieving item: ' + packageId);
         const item = this.state.packages.filter(p => p.id === packageId)[0];
 
         return(

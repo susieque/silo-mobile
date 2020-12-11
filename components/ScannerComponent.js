@@ -1,183 +1,176 @@
-import React, { Component, useState, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, Text, View, Button } from 'react-native';
-import { Avatar, ListItem, Badge } from 'react-native-elements';
-import TouchableScale from 'react-native-touchable-scale';
-import LinearGradient from 'react-native-linear-gradient';
-import Header from './ui-blocks/HeaderComponent';
+import React, { Component } from 'react';
+import { Alert, View, Text, Vibration, StyleSheet } from 'react-native';
+import { Button } from 'react-native-elements';
 import { PACKAGES } from '../shared/packages';
-import { JOBS } from '../shared/jobs';
-import * as Location  from 'expo-location';
-import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import * as Permissions from 'expo-permissions';
 
-export default function Scanner(props){
+class Scanner extends Component {
 
-    // constructor(props){
-    //     super(props);
-    //     this.state = {
-    //         packages: PACKAGES,
-    //         jobs: JOBS, 
-    //         selectedPackage: null,
-    //         // status: 'initialStatus',
-    //         errorMessage:'',
-    //         location:'nowhere yet'
-    //     }
-    // }
+    constructor(props) {
+        super(props);
 
-    // static navigationOptions = {
-    //     title: 'Scanner' 
-    // };
+        this.handleBarCodeScanned = this.handleBarCodeScanned.bind(this);
+        this.renderMessage = this.renderMessage.bind(this);
+        this.setScanned = this.setScanned.bind(this);
+        this.scannedCode = null;
 
-    // componentDidMount(){
-    //     this._getLocationPermissions();
-    //     this._getCameraPermissions();
-    // }
-    
-    // _getLocationPermissions = async () => {
-
-    //     // Alert.alert('component did mount is firing');
-        
-    //     const { status } = await Permissions.askAsync(Permissions.LOCATION);
-
-    //     if(status !== 'granted'){
-    //         console.log('Permission not granted');
-    //         this.setState({
-    //             errorMessage: 'Permission not granted'
-    //         })
-    //     }
-    //     //this.setState({ status });
-    //     console.log( status );
-    //     //If we make it this far, then we have permission.
-    //     const userLocation = await Location.getCurrentPositionAsync();
-    //     this.setState({ 
-    //         location: userLocation
-    //     })
-    //     console.log(this.state.location);
-    // }
-    
-    // _getCameraPermissions = async () => {
-
-    //     // Alert.alert('component did mount is firing');
-        
-    //     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-
-    //     if(status !== 'granted'){
-    //         console.log('Permission not granted');
-    //         this.setState({
-    //             errorMessage: 'Permission not granted'
-    //         })
-    //     }
-    //     console.log( status );
-        
-    // }
-    
-
-    
-    
-    // render(){
-
-        //_getCameraPermissions();
-
-        const { navigate } = props.navigation;
-
-        const [hasPermission, setHasPermission] = useState(null);
-        const [scanned, setScanned] = useState(false);
-        
-        const handleBarCodeScanned = ({ type, data }) => {
-            setScanned(true);
-            alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-            // navigate('PackageInfo', {packageId: data});
-            setScanned(false);
-            navigate('Home');
+        this.state = {
+            packages: PACKAGES,
+            hasCameraPermissions: this._getCameraPermissions(),
+            scannedItem: null,
+            scanned: false,
+            buttonTitle: 'Scan'
         };
-        
-        useEffect(() => {
-            (async () => {
-              const { status } = await BarCodeScanner.requestPermissionsAsync();
-              setHasPermission(status === 'granted');
-            })();
-          }, []);
+    }
 
+    async ComponentDidMount() {
+        await this._getCameraPermissions();
+        //const { status } = await Permissions.askAsync(Permissions.CAMERA);
+        //this.setState({hasCameraPermissions: status === 'granted'});
+        await this.resetScanner();
+    }
 
-        if(hasPermission === null) {
-            return <Text>Requesting for camera permission</Text>
+    setScanned(bool){
+        this.setState({scanned: bool});
+        console.log('Current value of scanned: ' + this.state.scanned);
+        if(bool){
+            this.setState({buttonTitle: 'Re-Scan'});
         }
-        if(hasPermission === false) {
+        else{
+            this.setState({buttonTitle: 'Scan'});
+        }
+    }
+
+    renderAlert(title, message) {
+        Alert.alert(
+            title,
+            message,
+            [
+                { text: 'OK', onPress: () => this.resetScanner()},
+            ],
+            { cancelable: true }
+        );
+    }
+
+    _getCameraPermissions = async () => {
+        
+        const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    
+        if(status !== 'granted'){
+            console.log('Permission not granted');
+            this.setState({
+                errorMessage: 'Permission not granted'
+            })
+        }
+        
+        this.setState({hasCameraPermissions: { status }});
+        console.log('getCameraPermissions: ' + status );
+        
+    }
+
+    handleBarCodeScanned({ type, data }) {
+
+        this.setScanned(true);
+        
+        if(type.startsWith('org.iso.Code128')){
+            //this.resetScanner();
+            const scannedPackage = this.state.packages.filter(p => p.number === data)[0];
+            if(scannedPackage){
+                this.props.navigation.navigate('PackageInfo', { packageId: scannedPackage.id });
+            }
+            else{
+                alert(`${data} is not a recognized package number`);
+                return;
+            }
+        } else if (type.startsWith('org.iso.QRCode')){
+            //Do something for QR Code
+            console.log(`QRCode scanned: ${ data }`);
+            //this.resetScanner();
+        } else {
+            this.renderAlert(
+                'This barcode is not supported.',
+                `${type} : ${data}`,
+            );
+        }
+    }
+
+    renderMessage() {
+        if(this.state.scannedItem && this.state.scannedItem.type){
+            const {type, data } = this.state.scannedItem;
             return (
-                <View style={styles.container}>
+                <Text style={styles.scanScreenMessage}>
+                    {`Scanned \n ${type} \n ${data}`}
+                </Text>
+            );
+        }
+        return <Text style={styles.scanScreenMessage}>Focus the barcode to scan.</Text>
+    }
+
+    resetScanner() {
+        this.scannedCode = null;
+        this.setState({
+            scannedItem: {
+                type: null,
+                data: null
+            }
+        });
+    }
+
+    render(){
+        
+        //const { hasCameraPermissions } = this.state;
+
+        //this._getCameraPermissions();
+        //console.log('from render:' + this.state.hasCameraPermissions.status);
+        
+        if(this.state.hasCameraPermissions === null){
+            //this._getCameraPermissions();
+            return (
+                <Text>Requesting for camera permissions</Text>
+            );
+        }
+        if(this.state.hasCameraPermissions === false) {
+            return (
+                <View>
                     <Text>Access to the Camera has been denied.</Text>
                     <Text>To fix this, go to "Settings", then choose "Silo"</Text>
                     <Text>and toggle the Camera setting to enable it.</Text>
                 </View>
-                );
+            );
         }  
-
-        return (
-            <SafeAreaView>
-                <Header />
-                <View style={styles.container}>
-                    <BarCodeScanner
-                        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                        style={StyleSheet.absoluteFillObject}
-                    />
-                    {scanned && <Button title={'Tap to Scan Again'} 
-                        onPress={() => setScanned(false)}/>}
+        return(
+            <View style={styles.container}>
+                <View style={{ flex: 1 }}>
+                    <BarCodeScanner 
+                        onBarCodeScanned={this.state.scanned ? undefined : this.handleBarCodeScanned}
+                        style={StyleSheet.absoluteFill}/>
+                    {this.renderMessage()}
+                    <Button title={this.state.buttonTitle}
+                            
+                            onPress={() => this.setScanned(false)}/>
                 </View>
-            </SafeAreaView>
+            </View>
         );
-    // }
-}
-
-
-_getCameraPermissions = async () => {
-
-    // Alert.alert('component did mount is firing');
-    
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-
-    if(status !== 'granted'){
-        console.log('Permission not granted');
-        this.setState({
-            errorMessage: 'Permission not granted'
-        })
     }
-    console.log( status );
-    
+
 }
 
-// _getLocationPermissions = async () => {
 
-    //     // Alert.alert('component did mount is firing');
-        
-    //     const { status } = await Permissions.askAsync(Permissions.LOCATION);
-
-    //     if(status !== 'granted'){
-    //         console.log('Permission not granted');
-    //         this.setState({
-    //             errorMessage: 'Permission not granted'
-    //         })
-    //     }
-    //     //this.setState({ status });
-    //     console.log( status );
-    //     //If we make it this far, then we have permission.
-    //     const userLocation = await Location.getCurrentPositionAsync();
-    //     this.setState({ 
-    //         location: userLocation
-    //     })
-    //     console.log(this.state.location);
-    // }
-
-
-const styles=StyleSheet.create({
-
+const styles = StyleSheet.create({
     container: {
-        height:800,
-        width: 800,
-        // justifyContent: 'flex-start',
-        // flex:1,
-        // margin: 0,
-        // backgroundColor: '#ffc59d'
+      flex: 1,
+      paddingTop: 0,
+      backgroundColor: '#fff',
     },
-})
+    scanScreenMessage: {
+      fontSize: 20,
+      color: 'white',
+      textAlign: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop:5
+    }
+  });
 
-// export default Scanner;
+export default Scanner;
