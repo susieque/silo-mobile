@@ -3,10 +3,9 @@ import { FlatList, StyleSheet, SafeAreaView, View, Alert, Text } from 'react-nat
 import { Avatar, ListItem, Button, Card, Image, Divider, Icon } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
-import { PACKAGES } from '../shared/packages';
-import { JOBS } from '../shared/jobs';
-import PackageList from './PackageListComponent';
+
 import Header from './ui-blocks/HeaderComponent';
+import * as ColorSchemes from '../components/style-resources/ColorSchemes';
 
 import { connect } from 'react-redux';
 
@@ -47,7 +46,7 @@ class Home extends Component {
                                 name={'bars'}
                                 type='font-awesome'
                                 size={15}
-                                color='#b84d05'
+                                color= {ColorSchemes.primaryLight}
                                 raised
                                 reverse/>
                                 <Text style={styles.cardTitle}>Package List</Text>
@@ -72,7 +71,7 @@ class Home extends Component {
                                 name={'qrcode'}
                                 type='font-awesome'
                                 size={15}
-                                color='#b84d05'
+                                color={ColorSchemes.primaryLight}
                                 raised
                                 reverse/>
                                 <Text style={styles.cardTitle}>Scanner</Text>
@@ -106,14 +105,14 @@ const styles=StyleSheet.create({
     buttonContainer: {
         marginTop: 15,
         color: 'white',
-        backgroundColor: '#b84d05',
+        backgroundColor: ColorSchemes.primaryDark,
         borderColor: 'white',
         borderRadius: 10,
         textAlignVertical:'center'
         
     },
     dividerStyle: {
-        backgroundColor: '#323232',
+        backgroundColor: ColorSchemes.designGrey,
         //marginBottom: 10
     },
 
@@ -130,7 +129,7 @@ const styles=StyleSheet.create({
         justifyContent: 'flex-start',
         flex:1,
         margin: 0,
-        backgroundColor: '#ffc59d'
+        backgroundColor: ColorSchemes.primaryLight
     },
     cardContainer: {
         backgroundColor: 'white',

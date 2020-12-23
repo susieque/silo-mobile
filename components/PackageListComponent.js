@@ -7,7 +7,7 @@ import Header from './ui-blocks/HeaderComponent';
 import { JOBS } from '../shared/jobs';
 
 //COMPONENTS 
-import Loading from '../components/LoadingComponent';
+import Loading from './ui-blocks/LoadingComponent';
 
 //REDUX-RELATED
 import { connect } from 'react-redux';
@@ -37,9 +37,7 @@ class PackageList extends Component {
     };
 
     render(){
-        console.log("trying to render the list");
-        const copyPacks = this.props.packages.packages;
-        console.log(JSON.stringify(copyPacks));
+        //console.log(JSON.stringify(this.props.packages.packages));
         const { navigate } = this.props.navigation
         const renderPackageListItem = ({item}) => {
             return (
@@ -50,7 +48,7 @@ class PackageList extends Component {
                     friction={90} //
                     tension={100} // These props are passed to the parent component (here TouchableScale)
                     activeScale={0.95}
-                    containerStyle={styles.listContainer} //
+                    containerStyle={styles.listItemContainer} //
                     linearGradientProps={{
                     //   colors: ['#FFA262', '#DA620B'],
                     //   colors: ['#239f03', '#1a7d00'],
@@ -113,7 +111,7 @@ const styles=StyleSheet.create({
         fontSize: 28
     },
 
-    listContainer: {
+    listItemContainer: {
         margin: 5,
         borderRadius:15
     },

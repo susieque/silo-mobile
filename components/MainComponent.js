@@ -19,14 +19,10 @@ import PackageList from './PackageListComponent';
 import Login from './LoginComponent';
 import Scanner from './ScannerComponent';
 
-
-
 //MAP DISPATCHES
 const mapDispatchToProps = {
     fetchPackages
 };
-
-
 
 //STACK NAVIGATORS
 const HomeNavigator = createStackNavigator(
@@ -252,19 +248,6 @@ class Main extends Component {
 
     componentDidMount(){
         this.props.fetchPackages();
-        // return fetch('http://localhost:3001/packages')
-        //     .then((response) => response.json())
-        //     .then((responseJson) => {
-
-        //         this.setState({
-        //             isFuckingStupid: true,
-        //             dataSource: responseJson
-        //         })
-        //         console.log(responseJson);
-        //     })
-        // .catch((error) => {
-        //     console.log(error)
-        // });
     }
 
     render() {
