@@ -1,6 +1,5 @@
+//GENERAL
 import React, { Component } from 'react';
-import { PACKAGES } from '../shared/packages';
-import { JOBS } from '../shared/jobs';
 import SafeAreaView from 'react-native-safe-area-view';
 import { View, Platform, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -8,11 +7,26 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
+
+//REDUX-RELATED
+import { connect } from 'react-redux';
+import { fetchPackages } from '../redux/ActionCreators';
+
+//COMPONENTS
 import Home from './HomeComponent';
 import PackageInfo from './PackageInfoComponent';
 import PackageList from './PackageListComponent';
 import Login from './LoginComponent';
 import Scanner from './ScannerComponent';
+
+
+
+//MAP DISPATCHES
+const mapDispatchToProps = {
+    fetchPackages
+};
+
+
 
 //STACK NAVIGATORS
 const HomeNavigator = createStackNavigator(
@@ -227,6 +241,32 @@ const MainNavigator = createDrawerNavigator(
 const AppNavigator = createAppContainer(MainNavigator);
 
 class Main extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            isFuckingStupid: false,
+            dataSource : null
+        }
+    }
+
+    componentDidMount(){
+        this.props.fetchPackages();
+        // return fetch('http://localhost:3001/packages')
+        //     .then((response) => response.json())
+        //     .then((responseJson) => {
+
+        //         this.setState({
+        //             isFuckingStupid: true,
+        //             dataSource: responseJson
+        //         })
+        //         console.log(responseJson);
+        //     })
+        // .catch((error) => {
+        //     console.log(error)
+        // });
+    }
+
     render() {
         return (
             <View style={{
@@ -268,4 +308,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Main;
+export default connect(null, mapDispatchToProps)(Main);

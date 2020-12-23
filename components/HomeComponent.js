@@ -8,13 +8,21 @@ import { JOBS } from '../shared/jobs';
 import PackageList from './PackageListComponent';
 import Header from './ui-blocks/HeaderComponent';
 
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => {
+    return {
+        packages: state.packages
+    };
+};
+
 class Home extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            packages: PACKAGES,
-            jobs: JOBS, 
+            // packages: PACKAGES,
+            // jobs: JOBS, 
             selectedPackage: null
         }
     }
@@ -48,7 +56,8 @@ class Home extends Component {
                         <Text style={styles.cardBody}>Manage warehouse order from the package list or receive items that can't be scanned.</Text>
                         <Button 
                             title="View List"
-                            onPress={() => navigate('PackageList', { packages: this.state.packages})}
+                            // onPress={() => navigate('PackageList', { packages: this.props.packages.packages})}
+                            onPress={() => navigate('PackageList', null)}
                             type='clear'
                             titleStyle={styles.buttonTitle}
                             containerStyle={styles.buttonContainer}
@@ -72,7 +81,7 @@ class Home extends Component {
                         <Text style={styles.cardBody}>Use the scanner to receive deliveries made to the jobsite. </Text>
                         <Button 
                             title="Scan"
-                            onPress={() => navigate('Scanner', { packages: this.state.packages})}
+                            onPress={() => navigate('Scanner', { packages: this.props.packages.packages})}
                             type='clear'
                             titleStyle={styles.buttonTitle}
                             containerStyle={styles.buttonContainer}
@@ -162,4 +171,4 @@ const styles=StyleSheet.create({
     }
 })
 
-export default Home;
+export default connect(mapStateToProps)(Home);

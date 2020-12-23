@@ -1,28 +1,45 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, SafeAreaView, Alert } from 'react-native';
+import { FlatList, StyleSheet, SafeAreaView, Alert, View, Text } from 'react-native';
 import { Avatar, ListItem, Badge } from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import LinearGradient from 'react-native-linear-gradient';
 import Header from './ui-blocks/HeaderComponent';
-import { PACKAGES } from '../shared/packages';
 import { JOBS } from '../shared/jobs';
+
+//COMPONENTS 
+import Loading from '../components/LoadingComponent';
+
+//REDUX-RELATED
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    console.log("state:")
+    console.log(state.packages);
+    return {
+        packages: state.packages
+    };
+};
 
 class PackageList extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            packages: PACKAGES,
-            jobs: JOBS, 
-            selectedPackage: null
-        }
-    }
+    // constructor(props){
+    //     super(props);
+    //     this.state = {
+    //         //packages: PACKAGES,
+    //         jobs: JOBS, 
+    //         selectedPackage: null
+    //     }
+    // }
 
     static navigationOptions = {
         title: 'Packages'
     };
 
     render(){
+        console.log("trying to render the list");
+        const copyPacks = this.props.packages.packages;
+        console.log(JSON.stringify(copyPacks));
         const { navigate } = this.props.navigation
         const renderPackageListItem = ({item}) => {
             return (
@@ -58,17 +75,30 @@ class PackageList extends Component {
             );
         };
 
+        if(this.props.packages.isLoading){
+            return <Loading />;
+            console.log("Still fucking loading");
+        }
+        if(this.props.packages.errMess){
+            return(
+                <View>
+                    <Text>{this.props.packages.errMess}</Text>
+                </View>
+            );
+        }
         return (
+            
             <SafeAreaView>
                 {/* <Header /> */}
                 <FlatList
-                    data={this.state.packages}
+                    data={this.props.packages.packages}
                     renderItem={renderPackageListItem}
                     style={styles.flatlistOverview}
                     keyExtractor={item => item.id.toString()}
                 />
             </SafeAreaView>
         );
+    
     }
 }
 
@@ -94,4 +124,4 @@ const styles=StyleSheet.create({
 
 })
 
-export default PackageList;
+export default connect(mapStateToProps)(PackageList);

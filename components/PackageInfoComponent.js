@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Card, Avatar, Icon } from 'react-native-elements';
-import { PACKAGES } from '../shared/packages';
-import { JOBS } from '../shared/jobs';
 
 function RenderPackageDetails(props){
     
@@ -60,14 +58,14 @@ function RenderPackageDetails(props){
 
 class PackageInfo extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            packages: PACKAGES,
-            jobs: JOBS,
-            dispatched: false
-        }
-    }
+    // constructor(props){
+    //     super(props);
+    //     this.state = {
+    //         packages: PACKAGES,
+    //         jobs: JOBS,
+    //         dispatched: false
+    //     }
+    // }
 
     static navigationOptions = {
         title: 'Details'
