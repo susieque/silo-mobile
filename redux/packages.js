@@ -5,10 +5,9 @@ export const packages = (state = {
                                 errMess: null,
                                 packages: []}, action) => {
 
-    console.log("Reducers Action Types: " + action.type);
+    console.log("Reducer Action Type: " + action.type);
     switch(action.type){
         case ActionTypes.ADD_PACKAGES:
-            console.log('reducer called.')
             return {...state, isLoading: false, errMess: null, packages: action.payload};
         
         case ActionTypes.PACKAGES_LOADING:
@@ -18,12 +17,15 @@ export const packages = (state = {
             return {...state, isLoading: false, errMess: action.payload };
         
         case ActionTypes.RECEIVE_PACKAGE:
+            console.log('You made it to the receive package reducer');
             return state;
-        
+            
         case ActionTypes.REQUEST_DISPATCH:
+            console.log('You made it to the request dispatch reducer');
             return state;
-        
+            
         case ActionTypes.ADD_COMMENT:
+            console.log('You made it to the add comment reducer');
             return state;
         
         default: 

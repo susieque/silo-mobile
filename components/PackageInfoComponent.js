@@ -1,44 +1,67 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, SafeAreaView, ScrollView, useColorScheme, Alert } from 'react-native';
 import { Card, Avatar, Icon } from 'react-native-elements';
+import { receivePackage, requestDispatch, addComment } from '../redux/ActionCreators';
 
 import * as DesignColors from '../components/style-resources/ColorSchemes';
 
 //REDUX
 import { connect } from 'react-redux';
 
-
-
 const mapStateToProps = state => {
     return {
         packages: state.packages
     };
 };
+
+//This is an arrow function which takes a single parameter.  The parameter it takes is the dispatch method.
+//All the keys returned by this function will dispatch an action.
+const mapDispatchToProps = (dispatch) => {
+    return {
+        receivePackage: (item) =>  { dispatch(receivePackage(item)) },
+        requestDispatch: (item) =>  { dispatch(requestDispatch(item)) },
+        addComment: (item) => { dispatch(addComment(item)) }
+    }
+};
+
+
+
 class PackageInfo extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            dispatched: false
         }
-
-        //this.dummyButtonAction = this.dummyButtonAction.bind(this);
     }
 
     static navigationOptions = {
         title: 'Details'
     }
 
-    requestDispatch({number}){
-        Alert.alert('package: ' + number + ' will be dispatched');
+
+//USE-CASE HANDLERS
+    requestDispatch(item){
+        Alert.alert(`package: ${item.number} will be dispatched`);
+        //Perform validation
+
+        //Invoke the Action
+        this.props.requestDispatch(item);
     }
 
-    markAsReceived({number}){
-        Alert.alert('package: ' + number + ' will be received');
+    markAsReceived(item){
+        Alert.alert(`package: ${item.number} will be received`);
+        //Perform validation
+        
+        //Invoke the Action
+        this.props.receivePackage(item);
     }
 
-    addComment({number}){
-        Alert.alert('comment will be added to package: ' + number);
+    addComment(item){
+        Alert.alert(`comment will be added to package: ${item.number}`);
+        //Perform validation
+
+        //Invoke the Action
+        this.props.addComment(item);
     }
 
     render(){ 
@@ -55,10 +78,13 @@ class PackageInfo extends Component {
                 return(
                     <SafeAreaView>
                         <View style={{ 
-                                backgroundColor: DesignColors.designGrey, 
-                                borderRadius: 10,
-                                margin:10,
-                                padding:10 }}>
+                            backgroundColor: DesignColors.designGrey, 
+                            borderRadius: 10,
+                            marginTop:10,
+                            marginLeft:10,
+                            marginRight:10,
+                            marginBottom:5,
+                            padding:10 }}>
                             <Text style={styles.listItemTitle}>{item.number}</Text>
                             <Text style={styles.listItemSubtitle}>{item.job}</Text>
                             <Text style={styles.listItemSubtitle}>{item.description}</Text>
@@ -87,12 +113,14 @@ class PackageInfo extends Component {
                                 raised
                                 reverse/>
                         </View>
-                        <Text style={styles.cardHeader}>LOCATION</Text>
-                        <Text style={styles.cardBody}>{item.location}{'\n'}</Text>
-                        <Text style={styles.cardHeader}>STATUS</Text>
-                        <Text style={styles.cardBody}>{item.remaining} out of {item.ordered} units remaining{'\n'}</Text>
-                        <Text style={styles.cardHeader}>NOTES</Text>
-                        <Text style={styles.cardBody}>{item.notes}</Text>
+                        <View>
+                            <Text style={styles.cardHeader}>LOCATION</Text>
+                            <Text style={styles.cardBody}>{item.location}{'\n'}</Text>
+                            <Text style={styles.cardHeader}>STATUS</Text>
+                            <Text style={styles.cardBody}>{item.remaining} out of {item.ordered} units remaining{'\n'}</Text>
+                            <Text style={styles.cardHeader}>NOTES</Text>
+                            <Text style={styles.cardBody}>{item.notes}</Text>
+                        </View>
                     </SafeAreaView>
                 );
             }
@@ -103,7 +131,6 @@ class PackageInfo extends Component {
             <ScrollView>
                 <RenderPackageDetails 
                     item={item} 
-                    dispatched={this.state.dispatched} 
                     />
             </ScrollView>
         );
@@ -153,10 +180,12 @@ const styles = StyleSheet.create({
     cardRow:{
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
+        // alignItems: 'center',
+        // justifyContent: 'center',
         flex: 1,
         flexDirection: 'row',
-        marginTop: 10,
-        marginBottom: 20,
+        marginTop: 0,
+        marginBottom: 5,
         marginLeft: 5,
         marginRight: 5
     },
@@ -167,7 +196,10 @@ const styles = StyleSheet.create({
     },
 
     listContainer: {
-        margin: 5,
+        marginTop: 5,
+        marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 0,
         padding: 5,
         borderRadius:15
     },
@@ -178,4 +210,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default connect(mapStateToProps)(PackageInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(PackageInfo);

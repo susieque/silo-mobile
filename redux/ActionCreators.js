@@ -36,14 +36,15 @@ export const packagesFailed = errMess => ({
     payload: errMess
 });
 
+
 export const receivePackage = (item) => ({
     type: ActionTypes.RECEIVE_PACKAGE,
     payload: item
 });
 
-export const addComment = (comment) => ({
+export const addComment = (item) => ({
     type: ActionTypes.ADD_COMMENT,
-    payload: comment
+    payload: item
 });
 
 export const requestDispatch = (item) => ({
