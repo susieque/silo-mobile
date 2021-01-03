@@ -41,6 +41,7 @@ class PackageInfo extends Component {
 
 //USE-CASE HANDLERS
     requestDispatch(item){
+        //Debug line
         Alert.alert(`package: ${item.number} will be dispatched`);
         //Perform validation
 
