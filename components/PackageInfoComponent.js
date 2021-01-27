@@ -45,6 +45,7 @@ class PackageInfo extends Component {
 		super(props);
 		this.state = {
 			showModal: false,
+			userComment: "",
 		};
 	}
 
@@ -78,9 +79,15 @@ class PackageInfo extends Component {
 	addComment(item) {
 		Alert.alert(`comment will be added to package: ${item.number}`);
 		//Perform validation
-
+		let newPackageObject = item ;
+		// let newPackageObject = { ...item };
+		// item.notes = item.notes + `\n${this.state.userComment}`;
+		newPackageObject.notes = newPackageObject.notes + `\n${this.state.userComment}`;
+		console.log('*******************************************************************************');
+		console.log(newPackageObject);
+		console.log('*******************************************************************************');
 		//Invoke the Action
-		this.props.addComment(item);
+		this.props.addComment(newPackageObject);
 	}
 
 	render() {
@@ -172,13 +179,15 @@ class PackageInfo extends Component {
 							placeholder="Comment"
 							leftIcon={{ type: "font-awesome", name: "comment-o" }}
 							leftIconContainerStyle={{ paddingRight: 10 }}
-							// onChangeText={() => }
-							// value={}
+							// onChangeText make sure user input assigned userComment
+							onChangeText={(userComment) => this.setState({ userComment: userComment })}
+							value={this.state.userComment}
 						/>
 						<View style={{ margin: 10 }}>
 							<Button
 								onPress={() => {
 									// this.handleComment(campsiteId);
+									this.addComment(item);
 									this.toggleModal();
 								}}
 								color="#5637DD"
