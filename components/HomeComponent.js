@@ -7,6 +7,7 @@ import LinearGradient from "react-native-linear-gradient";
 import Header from "./ui-blocks/HeaderComponent";
 import * as ColorSchemes from "../components/style-resources/ColorSchemes";
 //This is Nhan first commit
+//This is Susie first commit
 import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
@@ -171,3 +172,4 @@ const styles = StyleSheet.create({
 });
 
 export default connect(mapStateToProps)(Home);
+
