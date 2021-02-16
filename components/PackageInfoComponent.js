@@ -7,6 +7,7 @@ import {
 	ScrollView,
 	useColorScheme,
 	Modal,
+	TextInput,
 	Button,
 	Alert,
 } from "react-native";
@@ -79,13 +80,13 @@ class PackageInfo extends Component {
 	addComment(item) {
 		Alert.alert(`comment will be added to package: ${item.number}`);
 		//Perform validation
-		let newPackageObject = item ;
+		let newPackageObject = item;
 		// let newPackageObject = { ...item };
 		// item.notes = item.notes + `\n${this.state.userComment}`;
 		newPackageObject.notes = newPackageObject.notes + `\n${this.state.userComment}`;
-		console.log('*******************************************************************************');
+		console.log("*******************************************************************************");
 		console.log(newPackageObject);
-		console.log('*******************************************************************************');
+		console.log("*******************************************************************************");
 		//Invoke the Action
 		this.props.addComment(newPackageObject);
 	}
@@ -175,14 +176,51 @@ class PackageInfo extends Component {
 					onRequestClose={() => this.toggleModal()}
 				>
 					<View style={styles.modal}>
-						<Input
+						<View
+							style={{
+								backgroundColor: DesignColors.designGrey,
+								borderRadius: 10,
+								marginTop: 10,
+								marginLeft: 10,
+								marginRight: 10,
+								marginBottom: 5,
+								padding: 10,
+							}}
+						>
+							<Text style={styles.listItemTitle}>{item.number}</Text>
+							<Text style={styles.listItemSubtitle}>{item.job}</Text>
+							<Text style={styles.listItemSubtitle}>{item.description}</Text>
+						</View>
+            <Text style={{fontSize: 17, marginLeft: 10, borderRadius: 10,padding: 10,}}>COMMENT </Text>
+						<View
+							style={{
+								borderTopColor: "#000000",
+								borderTopWidth: 1,
+							}}
+						>
+							
+							<TextInput
+                style={styles.commentInput}
+                textAlignVertical={'top'}
+								multiline
+								numberOfLines={5}
+								placeholder="Enter Comment..."
+								leftIcon={{ type: "font-awesome", name: "comment-o" }}
+								leftIconContainerStyle={{ paddingRight: 10 }}
+								// onChangeText make sure user input assigned userComment
+								onChangeText={(userComment) => this.setState({ userComment: userComment })}
+								value={this.state.userComment}
+							/>
+						</View>
+						{/* <Input
+              style={styles.commentInput}
 							placeholder="Comment"
 							leftIcon={{ type: "font-awesome", name: "comment-o" }}
-							leftIconContainerStyle={{ paddingRight: 10 }}
+              leftIconContainerStyle={{ paddingRight: 10 }}
 							// onChangeText make sure user input assigned userComment
 							onChangeText={(userComment) => this.setState({ userComment: userComment })}
 							value={this.state.userComment}
-						/>
+						/> */}
 						<View style={{ margin: 10 }}>
 							<Button
 								onPress={() => {
@@ -282,6 +320,16 @@ const styles = StyleSheet.create({
 	modal: {
 		justifyContent: "center",
 		margin: 20,
+	},
+	commentInput: {
+		borderRadius: 10,
+		borderColor: "black",
+		// marginTop: 10,
+		marginLeft: 10,
+		marginRight: 10,
+		marginBottom: 5,
+		padding: 10,
+		fontSize: 20,
 	},
 });
 

@@ -14,8 +14,8 @@ import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 
 const mapStateToProps = state => {
-    console.log("state:")
-    console.log(state.packages);
+    // console.log("state:")
+    // console.log(state.packages);
     return {
         packages: state.packages
     };

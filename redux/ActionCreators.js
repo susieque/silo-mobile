@@ -7,7 +7,7 @@ export const fetchPackages = () => dispatch => {
     return fetch(baseUrl + 'packages')
         .then(response => {
                 if (response.ok) {
-                    console.log('response is okay');
+                    // console.log('response is okay');
                     return response;
                 } else {
                     console.log('response is not okay.  Using URL: ' + baseUrl);
