@@ -97,7 +97,7 @@ class PackageInfo extends Component {
 		}
 		newPackageObject.notes =
 			newPackageObject.notes +
-			`${month}/${date}/${year} ${timeHour}:${timeMinute} ${standardTime}` +
+			`\n( ${month}/${date}/${year} ${timeHour}:${timeMinute} ${standardTime} )` +
 			`\n${this.state.userComment}\n\n`;
 		console.log("*******************************************************************************");
 		console.log(newPackageObject);

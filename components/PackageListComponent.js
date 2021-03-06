@@ -25,7 +25,8 @@ class PackageList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isChecked: false,
+			isDispatchChecked: false,
+      displayData:{},
 			//packages: PACKAGES,
 			// jobs: JOBS,
 			// selectedPackage: null
@@ -83,17 +84,26 @@ class PackageList extends Component {
 				</View>
 			);
 		}
+
+		const packagesData = this.props.packages.packages;
+		if (this.state.isDispatchChecked) {
+			this.state.displayData = packagesData.filter((item) => item.location === "Dispatched");
+		} else {
+			this.state.displayData = packagesData;
+		}
+
 		return (
 			<SafeAreaView>
 				<CheckBox
 					title="Show dispatched packages"
-					checked={this.state.isChecked}
+					checked={this.state.isDispatchChecked}
 					checkedIcon="dot-circle-o"
 					uncheckedIcon="circle-o"
-					onPress={() => this.setState({ isChecked: !this.state.isChecked })}
+					onPress={() => this.setState({ isDispatchChecked: !this.state.isDispatchChecked })}
 				/>
 				<FlatList
-					data={this.props.packages.packages}
+					data={this.state.displayData}
+					// data={this.props.packages.packages}
 					renderItem={renderPackageListItem}
 					style={styles.flatlistOverview}
 					keyExtractor={(item) => item.id.toString()}
