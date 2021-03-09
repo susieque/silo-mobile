@@ -40,6 +40,7 @@ class PackageList extends Component {
 	render() {
 		//console.log(JSON.stringify(this.props.packages.packages));
 		const { navigate } = this.props.navigation;
+
 		const renderPackageListItem = ({ item }) => {
 			if (item.location === "Dispatched") {
 				return (
@@ -62,7 +63,7 @@ class PackageList extends Component {
 							end: { x: 0.2, y: 0 },
 						}}
 					>
-						<Avatar size="large" rounded source={require("./images/orange-avatar-white-bg.png")} />
+						<Avatar size="large" rounded source={require("./images/green-avatar-white-bg.png")} />
 						<ListItem.Content>
 							<ListItem.Title style={styles.listItemTitle}>{item.number}</ListItem.Title>
 							<ListItem.Subtitle style={styles.listItemSubtitle}>
@@ -151,6 +152,12 @@ const styles = StyleSheet.create({
 	flatlistOverview: {
 		margin: 5,
 	},
+
+	// listItemRegularAvatar: {
+	//   size:"large",
+	//   // rounded,
+	//   source:require("./images/orange-avatar-white-bg.png"),
+	// },
 
 	listItemTitle: {
 		color: "white",

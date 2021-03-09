@@ -141,6 +141,7 @@ class PackageInfo extends Component {
 								type="font-awesome"
 								color={DesignColors.requestIcon}
 								raised
+                size={35}
 								reverse
 							/>
 							<Icon
@@ -150,6 +151,7 @@ class PackageInfo extends Component {
 								onPress={() => this.toggleModal()}
 								// onPress={() => this.addComment(item)}
 								raised
+                size={35}
 								reverse
 							/>
 							<Icon
@@ -158,6 +160,7 @@ class PackageInfo extends Component {
 								color={DesignColors.receiveIcon}
 								onPress={() => this.markAsReceived(item)}
 								raised
+                size={35}
 								reverse
 							/>
 						</View>
@@ -305,9 +308,9 @@ const styles = StyleSheet.create({
 	},
 	cardRow: {
 		alignItems: "flex-start",
-		justifyContent: "flex-start",
-		// alignItems: 'center',
-		// justifyContent: 'center',
+		// alignItems: "center",
+		// justifyContent: "flex-start",
+		justifyContent: "center",
 		flex: 1,
 		flexDirection: "row",
 		marginTop: 0,
