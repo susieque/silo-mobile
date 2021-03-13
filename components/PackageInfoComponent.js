@@ -70,7 +70,14 @@ class PackageInfo extends Component {
 	}
 
 	markAsReceived(item) {
-		Alert.alert(`package: ${item.number} will be received`);
+		Alert.alert(`Confirm package: ${item.number} is being delivered`, "", [
+			{
+				text: "Cancel",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel",
+			},
+			{ text: "OK", onPress: () => item.location = "Delivered" },
+		]);
 		//Perform validation
 
 		//Invoke the Action
@@ -135,7 +142,7 @@ class PackageInfo extends Component {
 						</View>
 
 						<View style={styles.cardRow}>
-							<View >
+							<View>
 								<Icon
 									name={props.dispatched ? "paper-plane-o" : "paper-plane-o"}
 									onPress={() => this.requestDispatch(item)}
@@ -145,32 +152,32 @@ class PackageInfo extends Component {
 									size={35}
 									reverse
 								/>
-                <Text style={styles.iconText}>Dispatch</Text>
+								<Text style={styles.iconText}>Dispatch</Text>
 							</View>
 							<View>
-							  <Icon
-  								name={"pencil"}
-  								type="font-awesome"
-  								color={DesignColors.commentIcon}
-  								onPress={() => this.toggleModal()}
-  								// onPress={() => this.addComment(item)}
-  								raised
-  								size={35}
-  								reverse
-  							/>
-                <Text style={[styles.iconText, {paddingRight:0}]}>Comment</Text>
+								<Icon
+									name={"pencil"}
+									type="font-awesome"
+									color={DesignColors.commentIcon}
+									onPress={() => this.toggleModal()}
+									// onPress={() => this.addComment(item)}
+									raised
+									size={35}
+									reverse
+								/>
+								<Text style={[styles.iconText, { paddingRight: 0 }]}>Comment</Text>
 							</View>
 							<View>
-							  <Icon
-  								name={"check"}
-  								type="font-awesome"
-  								color={DesignColors.receiveIcon}
-  								onPress={() => this.markAsReceived(item)}
-  								raised
-  								size={35}
-  								reverse
-  							/>
-                <Text style={styles.iconText}> Receive</Text>
+								<Icon
+									name={"check"}
+									type="font-awesome"
+									color={DesignColors.receiveIcon}
+									onPress={() => this.markAsReceived(item)}
+									raised
+									size={35}
+									reverse
+								/>
+								<Text style={styles.iconText}>Delivered</Text>
 							</View>
 						</View>
 						{/* <View style={styles.cardRow}>
@@ -287,15 +294,15 @@ const styles = StyleSheet.create({
 		resizeMode: "cover",
 	},
 
-  iconText:{
-    fontSize: 17,
+	iconText: {
+		fontSize: 17,
 		fontWeight: "bold",
-    fontStyle:"italic",
-    textAlign: "auto",
+		fontStyle: "italic",
+		textAlign: "auto",
 		paddingLeft: 10,
 		// paddingRight: 10,
-    paddingBottom: 25,    
-  },
+		paddingBottom: 25,
+	},
 
 	cardTitle: {
 		fontSize: 28,
