@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert, View, Text, Vibration, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
-// import { PACKAGES } from '../shared/packages';
+import { PACKAGES } from '../shared/packages';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Permissions from 'expo-permissions';
 
@@ -16,7 +16,7 @@ class Scanner extends Component {
         this.scannedCode = null;
 
         this.state = {
-            //packages: PACKAGES,
+            packages: PACKAGES,
             hasCameraPermissions: this._getCameraPermissions(),
             scannedItem: null,
             scanned: false,

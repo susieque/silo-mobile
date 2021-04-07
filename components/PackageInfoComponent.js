@@ -7,6 +7,7 @@ import {
 	ScrollView,
 	useColorScheme,
 	Modal,
+	TextInput,
 	Button,
 	Alert,
 } from "react-native";
@@ -45,6 +46,7 @@ class PackageInfo extends Component {
 		super(props);
 		this.state = {
 			showModal: false,
+			userComment: "",
 		};
 	}
 
@@ -68,7 +70,14 @@ class PackageInfo extends Component {
 	}
 
 	markAsReceived(item) {
-		Alert.alert(`package: ${item.number} will be received`);
+		Alert.alert(`Confirm package: ${item.number} is being delivered`, "", [
+			{
+				text: "Cancel",
+				onPress: () => console.log("Cancel Pressed"),
+				style: "cancel",
+			},
+			{ text: "OK", onPress: () => item.location = "Delivered" },
+		]);
 		//Perform validation
 
 		//Invoke the Action
@@ -78,9 +87,30 @@ class PackageInfo extends Component {
 	addComment(item) {
 		Alert.alert(`comment will be added to package: ${item.number}`);
 		//Perform validation
-
+		let newPackageObject = item;
+		// let newPackageObject = { ...item };
+		// item.notes = item.notes + `\n${this.state.userComment}`;
+		let date = new Date().getDate();
+		let month = new Date().getMonth() + 1;
+		let year = new Date().getFullYear();
+		let timeHour = new Date().getHours();
+		let timeMinute = new Date().getMinutes();
+		let standardTime = "";
+		if (timeHour > 12) {
+			standardTime = "PM";
+			timeHour = timeHour - 12;
+		} else {
+			standardTime = "AM";
+		}
+		newPackageObject.notes =
+			newPackageObject.notes +
+			`\n( ${month}/${date}/${year} ${timeHour}:${timeMinute} ${standardTime} )` +
+			`\n${this.state.userComment}\n\n`;
+		console.log("*******************************************************************************");
+		console.log(newPackageObject);
+		console.log("*******************************************************************************");
 		//Invoke the Action
-		this.props.addComment(item);
+		this.props.addComment(newPackageObject);
 	}
 
 	render() {
@@ -112,32 +142,49 @@ class PackageInfo extends Component {
 						</View>
 
 						<View style={styles.cardRow}>
-							<Icon
-								name={props.dispatched ? "paper-plane-o" : "paper-plane-o"}
-								onPress={() => this.requestDispatch(item)}
-								type="font-awesome"
-								color={DesignColors.requestIcon}
-								raised
-								reverse
-							/>
-							<Icon
-								name={"pencil"}
-								type="font-awesome"
-								color={DesignColors.commentIcon}
-								onPress={() => this.toggleModal()}
-								// onPress={() => this.addComment(item)}
-								raised
-								reverse
-							/>
-							<Icon
-								name={"check"}
-								type="font-awesome"
-								color={DesignColors.receiveIcon}
-								onPress={() => this.markAsReceived(item)}
-								raised
-								reverse
-							/>
+							<View>
+								<Icon
+									name={props.dispatched ? "paper-plane-o" : "paper-plane-o"}
+									onPress={() => this.requestDispatch(item)}
+									type="font-awesome"
+									color={DesignColors.requestIcon}
+									raised
+									size={35}
+									reverse
+								/>
+								<Text style={styles.iconText}>Dispatch</Text>
+							</View>
+							<View>
+								<Icon
+									name={"pencil"}
+									type="font-awesome"
+									color={DesignColors.commentIcon}
+									onPress={() => this.toggleModal()}
+									// onPress={() => this.addComment(item)}
+									raised
+									size={35}
+									reverse
+								/>
+								<Text style={[styles.iconText, { paddingRight: 0 }]}>Comment</Text>
+							</View>
+							<View>
+								<Icon
+									name={"check"}
+									type="font-awesome"
+									color={DesignColors.receiveIcon}
+									onPress={() => this.markAsReceived(item)}
+									raised
+									size={35}
+									reverse
+								/>
+								<Text style={styles.iconText}>Delivered</Text>
+							</View>
 						</View>
+						{/* <View style={styles.cardRow}>
+              <Text>dispatch</Text>
+              <Text>dispatch</Text>
+              <Text>dispatch</Text>
+            </View> */}
 						<View>
 							<Text style={styles.cardHeader}>LOCATION</Text>
 							<Text style={styles.cardBody}>
@@ -168,17 +215,57 @@ class PackageInfo extends Component {
 					onRequestClose={() => this.toggleModal()}
 				>
 					<View style={styles.modal}>
-						<Input
+						<View
+							style={{
+								backgroundColor: DesignColors.designGrey,
+								borderRadius: 10,
+								marginTop: 10,
+								marginLeft: 10,
+								marginRight: 10,
+								marginBottom: 5,
+								padding: 10,
+							}}
+						>
+							<Text style={styles.listItemTitle}>{item.number}</Text>
+							<Text style={styles.listItemSubtitle}>{item.job}</Text>
+							<Text style={styles.listItemSubtitle}>{item.description}</Text>
+						</View>
+						<Text style={{ fontSize: 17, marginLeft: 10, borderRadius: 10, padding: 10 }}>
+							COMMENT{" "}
+						</Text>
+						<View
+							style={{
+								borderTopColor: "#000000",
+								borderTopWidth: 1,
+							}}
+						>
+							<TextInput
+								style={styles.commentInput}
+								textAlignVertical={"top"}
+								multiline
+								numberOfLines={5}
+								placeholder="Enter Comment..."
+								leftIcon={{ type: "font-awesome", name: "comment-o" }}
+								leftIconContainerStyle={{ paddingRight: 10 }}
+								// onChangeText make sure user input assigned userComment
+								onChangeText={(userComment) => this.setState({ userComment: userComment })}
+								value={this.state.userComment}
+							/>
+						</View>
+						{/* <Input
+              style={styles.commentInput}
 							placeholder="Comment"
 							leftIcon={{ type: "font-awesome", name: "comment-o" }}
-							leftIconContainerStyle={{ paddingRight: 10 }}
-							// onChangeText={() => }
-							// value={}
-						/>
+              leftIconContainerStyle={{ paddingRight: 10 }}
+							// onChangeText make sure user input assigned userComment
+							onChangeText={(userComment) => this.setState({ userComment: userComment })}
+							value={this.state.userComment}
+						/> */}
 						<View style={{ margin: 10 }}>
 							<Button
 								onPress={() => {
 									// this.handleComment(campsiteId);
+									this.addComment(item);
 									this.toggleModal();
 								}}
 								color="#5637DD"
@@ -205,6 +292,16 @@ class PackageInfo extends Component {
 const styles = StyleSheet.create({
 	cardImage: {
 		resizeMode: "cover",
+	},
+
+	iconText: {
+		fontSize: 17,
+		fontWeight: "bold",
+		fontStyle: "italic",
+		textAlign: "auto",
+		paddingLeft: 10,
+		// paddingRight: 10,
+		paddingBottom: 25,
 	},
 
 	cardTitle: {
@@ -242,9 +339,9 @@ const styles = StyleSheet.create({
 	},
 	cardRow: {
 		alignItems: "flex-start",
-		justifyContent: "flex-start",
-		// alignItems: 'center',
-		// justifyContent: 'center',
+		// alignItems: "center",
+		// justifyContent: "flex-start",
+		justifyContent: "center",
 		flex: 1,
 		flexDirection: "row",
 		marginTop: 0,
@@ -273,6 +370,16 @@ const styles = StyleSheet.create({
 	modal: {
 		justifyContent: "center",
 		margin: 20,
+	},
+	commentInput: {
+		borderRadius: 10,
+		borderColor: "black",
+		// marginTop: 10,
+		marginLeft: 10,
+		marginRight: 10,
+		marginBottom: 5,
+		padding: 10,
+		fontSize: 20,
 	},
 });
 
